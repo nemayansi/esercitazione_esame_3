@@ -29,3 +29,6 @@ class TestNoleggio(unittest.TestCase):
     def test_giorno_non_data(self):
         with self.assertRaises(TypeError):
             Noleggio("F1", "2026-11-06", "07:00", "08:00","Giovanni", 1)
+    def test_durata_minuti(self):
+        noleggio = Noleggio("A", date(2026, 11, 18), "09:00", "12:30", "Giovanni", 1)
+        self.assertEqual(noleggio.durata_minuti(), 210)
