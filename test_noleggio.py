@@ -1,6 +1,6 @@
 import unittest
 from datetime import date, timedelta
-from prenotazioni import Noleggio, GIORNO_CHIUSURA, DataNonAmmessa
+from prenotazioni import Noleggio, GIORNO_CHIUSURA, DataNonAmmessa, Flotta, Veicolo
 class TestNoleggio(unittest.TestCase):
     def test_orari_non_ammessi(self):
         with self.assertRaises(ValueError):
@@ -8,9 +8,13 @@ class TestNoleggio(unittest.TestCase):
     def test_giorni_non_ammessi(self):
         giorno = date(2026, 11, 16) #è un lunedì
         for day in range(7):
-            giorno_noleggio = (giorno + timedelta(days=day)).weekday()
-            if  giorno_noleggio == GIORNO_CHIUSURA:
+            giorno_noleggio = giorno + timedelta(days=day)
+            veicolo = Veicolo("Auto", "Feat", 5)
+            noleggio = Noleggio("Auto",  giorno_noleggio, "10:00", "11:00", "Giovanni", 1)
+            flotta = Flotta()
+            flotta.aggiungi_veicolo(veicolo)
+            if  giorno_noleggio.weekday() == GIORNO_CHIUSURA:
                 with self.assertRaises(DataNonAmmessa):
-                    Noleggio("Auto",  giorno_noleggio, "10:00", "11:00", "Giovanni", 1)
+                    flotta.prenota(noleggio, giorno)
             else:
-                Noleggio("Auto",  giorno_noleggio, "10:00", "11:00", "Giovanni", 1)
+                 flotta.prenota(noleggio, giorno)

@@ -375,12 +375,13 @@ class Flotta:
         """Solleva DataNonAmmessa se `giorno` non è prenotabile rispetto a `oggi`."""
         if giorno < oggi:
             raise DataNonAmmessa("Non si può prenotare una data già trascorsa")
-        if giorno.isoweekday() == GIORNO_CHIUSURA:
+        if giorno.weekday() == GIORNO_CHIUSURA:
             raise DataNonAmmessa("Il servizio è sospeso il giovedì")
         if giorno > oggi + timedelta(days=ORIZZONTE_GIORNI):
             raise DataNonAmmessa(
                 f"Si può prenotare al massimo {ORIZZONTE_GIORNI} giorni in anticipo"
             )
+        
 
     def prenota(self, noleggio, oggi=None):
         """Registra un noleggio e ne restituisce l'id.
