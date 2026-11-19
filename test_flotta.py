@@ -49,3 +49,20 @@ class TestFlotta(unittest.TestCase):
             flotta.noleggio("x")
         with self.assertRaises(NoleggioNonTrovato):
             flotta.cancella("x")    
+    def test_noleggi_del_giorno(self):
+        giorno = date(2026, 11, 20)
+        oggi = date(2026, 11, 18)
+        flotta = Flotta()
+        veicolo_a = Veicolo("A1", "Furgone", 3)
+        flotta.aggiungi_veicolo(veicolo_a)
+        veicolo_b = Veicolo("A2", "Furgone", 3)
+        flotta.aggiungi_veicolo(veicolo_b)
+        noleggio_b = Noleggio("A2", giorno, "12:00", "14:00", "Giovanni", 1)
+        flotta.prenota(noleggio_b, oggi)
+        noleggio_a = Noleggio("A1", giorno, "09:00", "12:00", "Giovanni", 1)
+        flotta.prenota(noleggio_a, oggi)
+        tutti = flotta.noleggi_del_giorno(giorno)
+        filtrati = flotta.noleggi_del_giorno(giorno, "A1")
+        self.assertEqual([x.id for x in tutti], [2, 1])
+        self.assertEqual([x.id for x in filtrati], [2])
+       
