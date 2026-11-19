@@ -26,3 +26,6 @@ class TestNoleggio(unittest.TestCase):
                     flotta.prenota(noleggio, giorno)
             else:
                  flotta.prenota(noleggio, giorno)
+    def test_giorno_non_data(self):
+        with self.assertRaises(TypeError):
+            Noleggio("F1", "2026-11-06", "07:00", "08:00","Giovanni", 1)
