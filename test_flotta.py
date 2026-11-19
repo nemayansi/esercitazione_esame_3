@@ -1,5 +1,5 @@
 import unittest
-from prenotazioni import Flotta, Veicolo, VeicoloNonTrovato, DataNonAmmessa, Noleggio, ORIZZONTE_GIORNI
+from prenotazioni import Flotta, Veicolo, VeicoloNonTrovato, DataNonAmmessa, Noleggio, ORIZZONTE_GIORNI, NoleggioNonTrovato
 from datetime import date, timedelta
 class TestFlotta(unittest.TestCase):
     def test_veicoli(self):
@@ -43,3 +43,9 @@ class TestFlotta(unittest.TestCase):
         self.assertEqual(prima, 1)
         self.assertEqual(seconda, 2)
         self.assertEqual(terza, 3)
+    def test_id_inesistenti(self):
+        flotta = Flotta()
+        with self.assertRaises(NoleggioNonTrovato):
+            flotta.noleggio("x")
+        with self.assertRaises(NoleggioNonTrovato):
+            flotta.cancella("x")    
